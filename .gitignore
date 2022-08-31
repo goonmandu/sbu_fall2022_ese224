@@ -1,7 +1,7 @@
 # Ignore everything
 *
 
-# Then unignore directories and those with an extension
+# Then unignore directories and those with an extension (= ignore executables)
 !*/
 !*.*
 
