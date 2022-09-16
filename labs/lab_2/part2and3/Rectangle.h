@@ -19,5 +19,5 @@ class Rectangle {
         void print_attribs(void);
         bool operator> (const Rectangle &);
         double operator- (const Rectangle &);
-        double compute_IOU(const Rectangle &);
+        double compute_IOU(Rectangle &);
 };
