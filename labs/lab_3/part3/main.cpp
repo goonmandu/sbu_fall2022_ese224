@@ -33,15 +33,14 @@ int main() {
             }
             squsum += w * h;
             squcount++;
-        } else {
-            if (w * h >= rectmax) {
-                rectmax = w * h;
-                rwmax = w;
-                rhmax = h;
-            }
-            rectsum += w * h;
-            rectcount++;
         }
+        if (w * h >= rectmax) {
+            rectmax = w * h;
+            rwmax = w;
+            rhmax = h;
+        }
+        rectsum += w * h;
+        rectcount++;
         fin >> w >> h;
     }
     std::cout << "Max rectangle area: " << rectmax << ", Width: " << rwmax << ", Height: " << rhmax << std::endl;
