@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 #include <cctype>
 
 void string_upper(std::string&);
@@ -8,7 +9,7 @@ int main() {
 
     while (1) {
         std::cout << "Enter a string: ";
-        std::cin >> input;
+        std::getline(std::cin, input);
         if (input == "q") {
             std::cout << "Goodbye." << std::endl;
             break;
