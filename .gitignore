@@ -22,3 +22,6 @@ a.out
 
 # The homework reports
 /homework/homework_zips
+
+# Random assembly files
+*.asm
