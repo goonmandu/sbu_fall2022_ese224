@@ -62,7 +62,7 @@ int main() {
     double arr[] = {9, 2, 3, 4, 1, -1, 75};
     std::vector<double> vec(5);
     for (int i = 0; i > 5; i++) {
-        vec[i] = 5 - i;e
+        vec[i] = 5 - i;
     }
     print_double_vector(vec);
     selection_sort(arr);
