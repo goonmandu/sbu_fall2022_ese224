@@ -3,7 +3,7 @@ Semester: *Fall 2022*
 Instructor: *Prof. Xin Wang*  
 Course: *ESE 224, Section 01*
 
-**This repository will be updated weekly.**
+**This repository will be updated ~~weekly~~ whenever I feel like updating it.**
 
 Originally authored by Mingi Hwang, a Stony Brook University student studying Computer Engineering.  
 If you wish to contact me directly, send an email to hwang.mingi7@gmail.com, or send a friend request to goonmandu#4897 on Discord.
