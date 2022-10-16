@@ -16,7 +16,6 @@ Library::Library() {
     std::string password;
 
     Book book;
-    User user;
 
     int consec_id = 0;
 
@@ -41,12 +40,6 @@ Library::Library() {
         }
     }
     number_of_books = consec_id - 1;
-
-    while (!users.eof()) {
-        users >> is_teacher >> username >> password;
-        user = {is_teacher, username, password};
-        this->credentials.push_back(user);
-    }
 }
 
 void Library::print_book(Book book) {
@@ -67,24 +60,4 @@ void Library::print_all_books() {
     for (Book book : catalog) {
         print_book(book);
     }
-}
-
-User Library::search_user(std::string username) {
-    User placeholder = {-1, "n/a", "n/a"};
-    for (User user : credentials) {
-        if (user.username == username) {
-            return user;
-        }
-    }
-    return placeholder;
-}
-
-void Library::print_user(User user) {
-    if (user.is_teacher) {
-        std::cout << "User type: Teacher";
-    } else {
-        std::cout << "User type: Student";
-    }
-    std::cout << "Username: " << user.username << std::endl;
-    std::cout << "Password: " << user.password << std::endl << std::endl;
 }
