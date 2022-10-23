@@ -17,6 +17,7 @@ class Library {
     private:
         std::vector<Book> catalog;
         int number_of_books;
+        int consec_id;
 
     public:
         Library();
@@ -24,10 +25,10 @@ class Library {
         void print_book(Book book);
         void print_books_vector(std::vector<Book> bookvec);
         void print_all_books();
-        Book borrow_book(int id);
+        Book borrow_book(int id, int borrow_days);
         void return_book(int id);
         void delete_book(int id);
-        void add_book(Book book);
+        void add_book(long long int isbn, std::string title, std::string author, std::string category);
         void update_day(int days);
         Book search_catalog_by_id(int id, int start, int end);
         /*

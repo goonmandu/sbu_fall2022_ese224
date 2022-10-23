@@ -2,6 +2,7 @@
 #include <iostream>
 
 Student::Student() {
+    /* BOOK TITLES ARE DEPRECATED, USE BOOK STRUCTS IN PLACE OF "bookN"*/
     database = {
         (UserData) {
             "john", { 
@@ -39,7 +40,15 @@ void Student::print_userdata(UserData data) {
     }
     std::cout << "Username: " << data.username << std::endl;
     for (BookAndDue pair : data.borrowed_books) {
-        std::cout << pair.title << " is due in " << pair.due << " days." << std::endl;
+        std::cout << pair.book << " is due in " << pair.due << " days." << std::endl;
     }
     std::cout << std::endl;
+}
+
+void Student::update_day(int day) {
+    for (UserData data : database) {
+        for (BookAndDue book : data.borrowed_books) {
+            book.due -= day;
+        }
+    }
 }

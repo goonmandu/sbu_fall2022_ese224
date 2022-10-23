@@ -18,7 +18,7 @@ Library::Library() {
 
     Book book;
 
-    int consec_id = 0;
+    consec_id = 0;
 
     books.open("book.txt");
     if (books.fail()) {
@@ -35,7 +35,7 @@ Library::Library() {
     while (!books.eof()) {
         books >> isbn >> title >> author >> category >> copies;
         for (int i = 0; i < copies; i++) {
-            book = {isbn, title, author, category, consec_id};
+            book = {isbn, title, author, category, consec_id, -1};
             this->catalog.push_back(book);
             consec_id++;
         }
@@ -65,22 +65,40 @@ void Library::print_all_books() {
     for (Book book : catalog) {
         print_book(book);
     }
+};
+
+Book Library::borrow_book(int id, int borrow_days) {
+    for (Book book : catalog) {
+        if (book.id == id) {
+            book.due_in = borrow_days;
+            return book;
+        }
+    }
 }
 
-Book Library::borrow_book(int id) {
-    
+void Library::return_book(int id) {
+    for (Book book : catalog) {
+        if (book.id == id) {
+            book.due_in = -1;
+            return;
+        }
+    }
 }
 
-void return_book(int id) {
-
+void Library::add_book(long long int isbn, std::string title, std::string author, std::string category) {
+    Book book = {isbn, title, author, category, consec_id++, -1};
+    catalog.push_back(book);
 }
 
-void add_book(Book book) {
-
-}
-
-void update_day(int days) {
-
+void Library::update_day(int days) {
+    for (Book book : catalog) {
+        if (book.due_in > 0) {
+            book.due_in -= days;
+            if (book.due_in < 0) {
+                book.due_in = 0;
+            }
+        }
+    }
 }
 
 Book Library::search_catalog_by_id(int id, int start, int end) {

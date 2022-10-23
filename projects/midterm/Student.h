@@ -6,7 +6,7 @@
 typedef struct BookAndDue {
 
     /* Book title */
-    std::string title;
+    Book book;
 
     /* How many days the book is due in */
     int due;
@@ -35,4 +35,5 @@ class Student {
         Student();
         UserData get_userdata(std::istream& in);
         void print_userdata(UserData data);
+        void update_day(int days);
 };
