@@ -2,8 +2,6 @@
 #include <vector>
 #include <string>
 
-
-
 typedef struct Book {
     long long int isbn;
     std::string title;

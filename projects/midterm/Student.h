@@ -36,4 +36,5 @@ class Student {
         UserData get_userdata(std::istream& in);
         void print_userdata(UserData data);
         void update_day(int days);
+        int Student::index_of_username(std::string username);
 };

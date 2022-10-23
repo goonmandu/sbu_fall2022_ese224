@@ -52,3 +52,14 @@ void Student::update_day(int day) {
         }
     }
 }
+
+int Student::index_of_username(std::string username) {
+    int not_found = -1, index = 0;
+    for (UserData data : database) {
+        if (data.username == username) {
+            return index;
+        }
+        index++;
+    }
+    return not_found;
+}
