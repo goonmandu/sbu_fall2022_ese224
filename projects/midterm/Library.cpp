@@ -84,7 +84,7 @@ void update_day(int days) {
 }
 
 Book Library::search_catalog_by_id(int id, int start, int end) {
-    Book invalid = {.isbn=-1};
+    Book invalid = {-1, "", "", "", -1, -1};
     if (start <= end) {
         int mid = (start + end) / 2;
         if (catalog[mid].id == id) {
