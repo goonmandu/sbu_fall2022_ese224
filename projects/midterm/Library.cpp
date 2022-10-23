@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 #include "Library.h"
 
 Library::Library() {
@@ -39,7 +40,11 @@ Library::Library() {
             consec_id++;
         }
     }
-    number_of_books = consec_id - 1;
+    number_of_books = catalog.size();
+}
+
+int Library::num_books() {
+    return number_of_books;
 }
 
 void Library::print_book(Book book) {
@@ -60,4 +65,37 @@ void Library::print_all_books() {
     for (Book book : catalog) {
         print_book(book);
     }
+}
+
+Book Library::borrow_book(int id) {
+    
+}
+
+void return_book(int id) {
+
+}
+
+void add_book(Book book) {
+
+}
+
+void update_day(int days) {
+
+}
+
+Book Library::search_catalog_by_id(int id, int start, int end) {
+    Book invalid = {.isbn=-1};
+    if (start <= end) {
+        int mid = (start + end) / 2;
+        if (catalog[mid].id == id) {
+            return catalog[mid];
+        }
+        if (catalog[mid].id > id) {
+            return search_catalog_by_id(id, start, mid - 1);
+        }
+        if (catalog[mid].id < id) {
+            return search_catalog_by_id(id, mid + 1, end);
+        }
+    }
+    return invalid;
 }

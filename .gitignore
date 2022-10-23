@@ -25,3 +25,6 @@ a.out
 
 # Random assembly files
 *.asm
+
+# VSCode config directory
+/.vscode
