@@ -16,8 +16,8 @@ int main() {
         "car"
     };
 
-    std::cout << longest_common_prefix(inputs1) << std::endl;
-    std::cout << longest_common_prefix(inputs2) << std::endl;
+    std::cout << "Longest Common Prefix of Testcase1: " << longest_common_prefix(inputs1) << std::endl;
+    std::cout << "Longest Common Prefix of Testcase2: " << longest_common_prefix(inputs2) << std::endl;
 }
 
 std::string longest_common_prefix(std::vector<std::string> &strings) {

@@ -35,22 +35,22 @@ int partition(std::vector<int> &vec, int low, int high) {
             if (i > j) {
                 break;
             }
-            std::cout << "i=" << vec[i] << " ";
+            // std::cout << "i=" << vec[i] << " ";
         } while (vec[i] <= vec[low]);
-        std::cout << std::endl;
+        // std::cout << std::endl;
         do {
             j--;
-            std::cout << "j=" << vec[j] << " ";
+            // std::cout << "j=" << vec[j] << " ";
         } while (vec[j] > pivot);
-        std::cout << std::endl;
+        // std::cout << std::endl;
         if (i < j) {
-            std::cout << "Swap i with j" << std::endl;
+            // std::cout << "Swap i with j" << std::endl;
             swap(vec[i], vec[j]);
         }
     }
-    std::cout << "Swap pivot with right" << std::endl;
+    // std::cout << "Swap pivot with right" << std::endl;
     swap(vec[low], vec[j]);
-    std::cout << j << std::endl;
+    // std::cout << j << std::endl;
     return j;
 }
 
