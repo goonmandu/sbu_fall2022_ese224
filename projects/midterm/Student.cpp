@@ -5,7 +5,7 @@ Student::Student() {
     /* BOOK TITLES ARE DEPRECATED, USE BOOK STRUCTS IN PLACE OF "bookN"*/
     database = {
         (UserData) {
-            "john", { 
+            "john", {
                 (BookAndDue) {"book1", 7},
                 (BookAndDue) {"book2", 3}
             }
