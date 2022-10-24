@@ -44,7 +44,8 @@ void sort_last_name(std::vector<Student> &vec) {
 
 void print_all_students(std::vector<Student> vec) {
     for (Student student : vec) {
-        std::cout << "First name: " << student.get_first_name() << ", Last name: " << student.get_last_name() << std::endl;
+        std::cout << "First name: " << student.get_first_name() << \
+                     ", Last name: " << student.get_last_name() << std::endl;
     }
     std::cout << std::endl;
 }
