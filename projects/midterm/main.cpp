@@ -4,6 +4,7 @@
 
 int main() {
     Library lib = Library();
-    std::cout << lib.search_id(761);
+    lib.delete_book(4);
+    lib.print_all_books();
     //           ^^^^^^^^this function returns a Book struct^^^^^^^^
 }

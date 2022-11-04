@@ -96,7 +96,8 @@ void Library::return_book(int id) {
 }
 
 void Library::delete_book(int id) {
-    // somehow delete a book with its id
+    int index = search_id(id) - &catalog[0];
+    catalog.erase(catalog.begin() + index);
 }
 
 void Library::add_book(long long int isbn, std::string title, std::string author, std::string category) {
