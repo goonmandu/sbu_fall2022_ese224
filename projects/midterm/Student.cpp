@@ -3,6 +3,7 @@
 
 Student::Student() {
     /* BOOK TITLES ARE DEPRECATED, USE BOOK STRUCTS IN PLACE OF "bookN"*/
+    /*
     database = {
         (UserData) {
             "john", {
@@ -18,6 +19,7 @@ Student::Student() {
             }
         }
     };
+     */
 };
 
 UserData Student::get_userdata(std::istream& in) {

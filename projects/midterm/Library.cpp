@@ -32,6 +32,8 @@ Library::Library() {
         exit(1);
     }
 
+    catalog.push_back({-1, "", "", "", -1, -1});  // Invalid book in catalog to return pointers as
+
     while (!books.eof()) {
         books >> isbn >> title >> author >> category >> copies;
         for (int i = 0; i < copies; i++) {
@@ -74,20 +76,33 @@ Book Library::borrow_book(int id, int borrow_days) {
             return book;
         }
     }
+    return {};  // Make Clang happy about there being a control path that does not return anything 
+                // even though the precondition is that the book ID is valid
 }
 
 void Library::return_book(int id) {
+    /* Sequential
     for (Book book : catalog) {
         if (book.id == id) {
             book.due_in = -1;
             return;
         }
     }
+     */
+    
+    /* Use existing function to directly modify attribute */
+    Book *bookptr = search_id(id);
+    bookptr->due_in = -1;
+}
+
+void Library::delete_book(int id) {
+    // somehow delete a book with its id
 }
 
 void Library::add_book(long long int isbn, std::string title, std::string author, std::string category) {
     Book book = {isbn, title, author, category, consec_id++, -1};
     catalog.push_back(book);
+    this->number_of_books = catalog.size();
 }
 
 void Library::update_day(int days) {
@@ -101,19 +116,31 @@ void Library::update_day(int days) {
     }
 }
 
-Book Library::search_catalog_by_id(int id, int start, int end) {
-    Book invalid = {-1, "", "", "", -1, -1};
+Book* Library::search_id(int id) {
+    return binary_search_catalog(id, 0, this->number_of_books - 1);
+}
+
+Book* Library::binary_search_catalog(int id, int start, int end) {
     if (start <= end) {
         int mid = (start + end) / 2;
         if (catalog[mid].id == id) {
-            return catalog[mid];
+            return &catalog[mid];
         }
         if (catalog[mid].id > id) {
-            return search_catalog_by_id(id, start, mid - 1);
+            return binary_search_catalog(id, start, mid - 1);
         }
         if (catalog[mid].id < id) {
-            return search_catalog_by_id(id, mid + 1, end);
+            return binary_search_catalog(id, mid + 1, end);
         }
     }
-    return invalid;
+    return &catalog[0];
+}
+
+std::ostream& operator<<(std::ostream &out, const Book &book) {
+    out << "ISBN:     " << book.isbn << std::endl;
+    out << "Title:    " << book.title << std::endl;
+    out << "Author:   " << book.author << std::endl;
+    out << "Category: " << book.category << std::endl;
+    out << "Intrn ID: " << book.id << std::endl << std::endl;
+    return out;
 }

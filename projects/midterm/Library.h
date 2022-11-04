@@ -28,10 +28,14 @@ class Library {
         void delete_book(int id);
         void add_book(long long int isbn, std::string title, std::string author, std::string category);
         void update_day(int days);
-        Book search_catalog_by_id(int id, int start, int end);
+        Book* search_id(int id);
+        Book* binary_search_catalog(int id, int start, int end);
         /*
         std::vector<Book> search_book_title(std::string title);
         std::vector<Book> search_book_isbn(long long isbn);
         std::vector<Book> search_book_author(std::string author);
          */
 };
+
+std::ostream& operator<<(std::ostream &out, const Book &book);
+// std::istream& operator>>(std::istream &in, const 
