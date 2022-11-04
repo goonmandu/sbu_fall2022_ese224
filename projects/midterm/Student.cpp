@@ -41,16 +41,16 @@ void Student::print_userdata(UserData data) {
         return;
     }
     std::cout << "Username: " << data.username << std::endl;
-    for (BookAndDue pair : data.borrowed_books) {
-        std::cout << pair.book << " is due in " << pair.due << " days." << std::endl;
+    for (Book book : data.borrowed_books) {
+        std::cout << book.title << " is due in " << book.due_in << " days." << std::endl;
     }
     std::cout << std::endl;
 }
 
 void Student::update_day(int day) {
     for (UserData data : database) {
-        for (BookAndDue book : data.borrowed_books) {
-            book.due -= day;
+        for (Book book : data.borrowed_books) {
+            book.due_in -= day;
         }
     }
 }
