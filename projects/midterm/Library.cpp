@@ -145,3 +145,17 @@ std::ostream& operator<<(std::ostream &out, const Book &book) {
     out << "Intrn ID: " << book.id << std::endl << std::endl;
     return out;
 }
+
+std::istream& operator>>(std::istream &in, Book &book) {
+    std::cout << "ISBN:     ";
+    in >> book.isbn;
+    std::cout << "Title:    ";
+    in >> book.title;
+    std::cout << "Author:   ";
+    in >> book.author;
+    std::cout << "Category: ";
+    in >> book.category;
+    std::cout << "Intrn ID: ";
+    in >> book.id;
+    return in;
+}

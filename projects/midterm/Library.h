@@ -30,6 +30,8 @@ class Library {
         void update_day(int days);
         Book* search_id(int id);
         Book* binary_search_catalog(int id, int start, int end);
+        friend std::ostream& operator<<(std::ostream &out, const Book &book);
+        friend std::istream& operator>>(std::istream &in, const Book &book);
         /*
         std::vector<Book> search_book_title(std::string title);
         std::vector<Book> search_book_isbn(long long isbn);
@@ -37,5 +39,5 @@ class Library {
          */
 };
 
-std::ostream& operator<<(std::ostream &out, const Book &book);
-// std::istream& operator>>(std::istream &in, const 
+// std::ostream& operator<<(std::ostream &out, const Book &book);
+// std::istream& operator>>(std::istream &in, const Book &book);

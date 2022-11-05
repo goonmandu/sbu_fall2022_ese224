@@ -17,21 +17,6 @@ database = {
         }
     }
 };
-```
-
-### The `BookAndDue` struct
-```cpp
-/* Smallest unit of data in the database */
-typedef struct BookAndDue {
-
-    /* Book title */
-    std::string title;
-
-    /* How many days the book is due in */
-    int due;
-
-} BookAndDue;
-```
 
 ### The `UserData` struct
 ```cpp
@@ -42,7 +27,7 @@ typedef struct UserData {
     std::string username;
 
     /* List of the books and their due dates */
-    std::vector<BookAndDue> borrowedBooks;
+    std::vector<Book> borrowedBooks;
 
 } UserData;
 ```
