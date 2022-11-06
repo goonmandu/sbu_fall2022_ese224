@@ -1,5 +1,6 @@
 #include "Student.h"
 #include <iostream>
+#include <fstream>
 
 Student::Student() {
     /* BOOK TITLES ARE DEPRECATED, USE BOOK STRUCTS IN PLACE OF "bookN"*/
@@ -64,4 +65,32 @@ int Student::index_of_username(std::string username) {
         index++;
     }
     return not_found;
+}
+
+void Student::fill_creds() {
+    // fstream student is opened with "students.txt"
+    std::ifstream student;
+    student.open("student.txt");
+    bool role;
+    std::string id, pw;
+    while (!student.eof()) {
+        student >> role >> id >> pw;
+        if (!role) {
+            usernames.push_back(id);
+            passwords.push_back(pw);
+        }
+    }
+}
+
+bool Student::check_auth(std::string id, std::string pw) {
+    for (int i = 0; i < usernames.size(); ++i) {
+        if (id == usernames[i]) {
+            if (pw == passwords[i]) {
+                return true;
+            } else {
+                break;
+            }
+        }
+    }
+    return false;
 }
