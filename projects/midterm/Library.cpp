@@ -70,14 +70,9 @@ void Library::print_all_books() {
 };
 
 Book Library::borrow_book(int id, int borrow_days) {
-    for (Book book : catalog) {
-        if (book.id == id) {
-            book.due_in = borrow_days;
-            return book;
-        }
-    }
-    return {};  // Make Clang happy about there being a control path that does not return anything 
-                // even though the precondition is that the book ID is valid
+    Book *bookptr = search_id(id);
+    bookptr->due_in = borrow_days;
+    return *(bookptr);
 }
 
 void Library::return_book(int id) {
