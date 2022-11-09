@@ -4,7 +4,7 @@
 #include <vector>
 #include "Library.h"
 #define TEACHER_BORROW_DURATION 50
-#define TEACHER_BORROW_LIMIT 15
+#define TEACHER_BORROW_LIMIT 10
 #define SECONDS_PER_DAY 5
 
 typedef struct TeacherData {

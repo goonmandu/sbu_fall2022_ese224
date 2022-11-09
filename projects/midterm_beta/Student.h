@@ -3,8 +3,8 @@
 #include <fstream>
 #include <vector>
 #include "Library.h"
-#define STUDENT_BORROW_DURATION 25
-#define STUDENT_BORROW_LIMIT 10
+#define STUDENT_BORROW_DURATION 30
+#define STUDENT_BORROW_LIMIT 5
 #define SECONDS_PER_DAY 5
 
 typedef struct StudentData {
