@@ -155,8 +155,11 @@ int Teacher::menu(Library &lib) {
     char expression = 'a';
     int commandchosen;
     int query_id;
+    int query_int;
+    std::string query_author_name, query_title, query_category;
+    std::vector<Book> search_result;
     Book renewed, returned, deleted;
-    long long int new_isbn;
+    long long int new_isbn, query_isbn;
     std::string new_title, new_author, new_category;
     double days_passed;
     std::chrono::steady_clock::time_point end;
@@ -167,13 +170,14 @@ int Teacher::menu(Library &lib) {
     std::cout << "~      " << "Library Options" << std::setw(8) << "~" << std::endl;
     std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
     std::cout << "\nYou are logged in as: " << session_username << " (Teacher)" << std::endl << std::endl;
-    std::cout << "(1) - Search Book" << std::endl;
+    std::cout << "(1) - Search Book by ID" << std::endl;
     std::cout << "(2) - Borrow Book" << std::endl;
     std::cout << "(3) - Return Book" << std::endl;
     std::cout << "(4) - Renew Book" << std::endl;
     std::cout << "(5) - Request Book" << std::endl; // TEACHER ONLY
     std::cout << "(6) - Remove Book" << std::endl;  // TEACHER ONLY
     std::cout << "(7) - View Borrowed Books" << std::endl;
+    std::cout << "(8) - Search Book by Keyword" << std::endl;
     std::cout << "(9) - List Library Catalog" << std::endl;
     std::cout << "(0) - Log Out " << std::endl;
     std::cout << "\nPlease select an option. ";
@@ -295,6 +299,53 @@ int Teacher::menu(Library &lib) {
             lib.update_day(days_passed);
             update_day(days_passed);
             print_userdata(database[index_in_database]);
+            commandchosen = 1;
+            break;
+        case '8':
+            std::cout << "(1) - Search by Title" << std::endl;
+            std::cout << "(2) - Search by Name of Author" << std::endl;
+            std::cout << "(3) - Search by Category" << std::endl;
+            std::cout << "(4) - Search by ISBN" << std::endl;
+            std::cout << "Select one option: ";
+            do {
+                std::cin >> query_int;
+                if (query_int == 1) {
+                    std::cout << "Enter a title: ";
+                    std::cin >> query_title;
+                    end = std::chrono::steady_clock::now();
+                    days_passed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() / (1000.0 * SECONDS_PER_DAY);
+                    lib.update_day(days_passed);
+                    update_day(days_passed);
+                    search_result = lib.search_book_title(query_title);
+                } else if (query_int == 2) {
+                    std::cout << "Enter an author's name: ";
+                    std::cin >> query_author_name;
+                    end = std::chrono::steady_clock::now();
+                    days_passed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() / (1000.0 * SECONDS_PER_DAY);
+                    lib.update_day(days_passed);
+                    update_day(days_passed);
+                    search_result = lib.search_book_author(query_author_name);
+                } else if (query_int == 3) {
+                    std::cout << "Enter a category: ";
+                    std::cin >> query_category;
+                    end = std::chrono::steady_clock::now();
+                    days_passed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() / (1000.0 * SECONDS_PER_DAY);
+                    lib.update_day(days_passed);
+                    update_day(days_passed);
+                    search_result = lib.search_book_category(query_category);
+                } else if (query_int == 4) {
+                    std::cout << "Enter the ISBN of the book: ";
+                    std::cin >> query_isbn;
+                    end = std::chrono::steady_clock::now();
+                    days_passed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() / (1000.0 * SECONDS_PER_DAY);
+                    lib.update_day(days_passed);
+                    update_day(days_passed);
+                    search_result = lib.search_book_isbn(query_isbn);
+                } else {
+                    std::cout << "Please enter a valid option: ";
+                }
+            } while (query_int < 1 || query_int > 4);
+            lib.print_books_vector(search_result);
             commandchosen = 1;
             break;
         case '9':

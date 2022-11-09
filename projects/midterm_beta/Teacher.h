@@ -13,15 +13,6 @@ typedef struct TeacherData {
     std::vector<Book> current_teacher_books;
 } TeacherData;
 
-/*typedef struct Book_Teacher {
-    long long int isbn;
-    std::string title;
-    std::string author;
-    std::string category;
-    int id;
-    int due_in;  // -1 if in available, nonnegative (>0) if on loan
-} Book_Teacher;*/
-
 class Teacher
 {
 private:

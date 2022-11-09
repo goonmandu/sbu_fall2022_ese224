@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <cctype>
 #include "Library.h"
 #include <cstring>
 
@@ -38,6 +39,7 @@ Library::Library() {
 
     while (!books.eof()) {
         books >> isbn >> title >> author >> category >> copies;
+        std::cout << isbn << title << author << category << copies << std::endl;
         for (int i = 0; i < copies; i++) {
             book = { isbn, title, author, category, consec_id, -1 };
             this->catalog.push_back(book);
@@ -165,6 +167,7 @@ void Library::sort_alphabetically_title(std::vector<Book>& vec) {  // Pass vecto
     }
 }
 
+/*
 void Library::sort_alphabetically_ID(std::vector<Book>& vec) {  // Pass vector of structs. If you want to modify the original vector, call it by reference.
     int sorted = 0;                                       // If you want to return a new vector without modifying the original vector, you need to
     while (sorted < vec.size() - 1) {                     // declare the function return type as std::vector<BookAndDue> and have a temporary vector
@@ -179,10 +182,11 @@ void Library::sort_alphabetically_ID(std::vector<Book>& vec) {  // Pass vector o
         }
     }
 }
+ */
 
 //liz's additions
 
-std::vector<Book> Library::searchBook_ISBN(long long int isbn) {
+std::vector<Book> Library::search_book_isbn(long long int isbn) {
     std::vector<Book> values;
     for (Book book : catalog) {
         if (book.isbn == isbn) {
@@ -193,34 +197,59 @@ std::vector<Book> Library::searchBook_ISBN(long long int isbn) {
     if (values.size() > 1) {
         sort_alphabetically_title(values);
     }
+    /*
     for (Book book1 : values) {
         print_book_with_date(book1);
     }
+     */
     return values;
 }
 
-std::vector<Book> Library::searchBook_title(std::string title) {
+std::vector<Book> Library::search_book_title(std::string title) {
+    // LOWERCASE std::transform(title.begin(), title.end(), title.begin(), [](unsigned char c){ return std::tolower(c); });
     std::vector<Book> values;
     for (Book book : catalog) {
         if (book.title == title) {
             values.push_back(book);
         }
     }
-
+    
     //checking if there is more than one book
     if (values.size() > 1) {
         sort_alphabetically_title(values);
     }
+    /*
     for (Book book1 : values) {
         print_book_with_date(book1);
     }
+     */
     return values;
 }
 
-
-std::vector<Book> Library::searchBook_category(std::string category) {
+std::vector<Book> Library::search_book_author(std::string author) {
     std::vector<Book> values;
     for (Book book : catalog) {
+        if (book.author == author) {
+            values.push_back(book);
+        }
+    }
+    
+    //checking if there is more than one book
+    if (values.size() > 1) {
+        sort_alphabetically_title(values);
+    }
+    /*
+    for (Book book1 : values) {
+        print_book_with_date(book1);
+    }
+     */
+    return values;
+}
+
+std::vector<Book> Library::search_book_category(std::string category) {
+    std::vector<Book> values;
+    for (Book book : catalog) {
+        std::cout << "Query: " << category << ", Compare against: " << book.category << std::endl;
         if (book.category == category) {
             values.push_back(book);
         }
@@ -230,12 +259,15 @@ std::vector<Book> Library::searchBook_category(std::string category) {
     if (values.size() > 1) {
         sort_alphabetically_title(values);
     }
+    /*
     for (Book book1 : values) {
         print_book_with_date(book1);
     }
+     */
     return values;
 }
 
+/*
 std::vector<Book> Library::searchBook_ID(int id) {
     std::vector<Book> values;
     for (Book book : catalog) {
@@ -253,6 +285,7 @@ std::vector<Book> Library::searchBook_ID(int id) {
     }
     return values;
 }
+ */
 
 std::istream& operator>>(std::istream& in, Book& book) {
     std::cout << "ISBN:     ";

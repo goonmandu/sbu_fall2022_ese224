@@ -31,20 +31,21 @@ class Library {
         void update_day(double days);
         Book search_catalog_by_id(int id, int start, int end);
         void operator<<(const Book& book);
-        void sort_alphabetically_ID(std::vector<Book>& vec);
+        // void sort_alphabetically_ID(std::vector<Book>& vec);
         void sort_alphabetically_title(std::vector<Book>& vec);
         void print_book_with_date(Book book);
         friend std::istream& operator>>(std::istream& in, const Book& book);
         //liz's 
-        std::vector<Book>searchBook_ISBN(long long int isbn);
-        std::vector<Book>searchBook_title(std::string title);
-        std::vector<Book>searchBook_category(std::string category);
-        std::vector<Book>searchBook_ID(int id);
+        std::vector<Book> search_book_isbn(long long int isbn);
+        std::vector<Book> search_book_title(std::string title);
+        std::vector<Book> search_book_category(std::string category);
+        std::vector<Book> search_book_author(std::string author);
+        // std::vector<Book>search_book_id(int id);
         /*
         std::vector<Book> search_book_title(std::string title);
         std::vector<Book> search_book_isbn(long long isbn);
         std::vector<Book> search_book_author(std::string author);
-        */
+         */
         void set_loan_duration(int id, int borrow_days);
         Book get_last_book();
 };
