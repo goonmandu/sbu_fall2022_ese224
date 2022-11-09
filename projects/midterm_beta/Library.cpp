@@ -141,8 +141,7 @@ void Library::print_book_with_date(Book book) {
     std::cout << "Due In:   " << book.due_in << std::endl << std::endl;
 }
 
-void Library::operator<<(const Book& book)
-{
+void Library::operator<<(const Book& book) {
     std::cout << "ISBN:     " << book.isbn << std::endl;
     std::cout << "Title:    " << book.title << std::endl;
     std::cout << "Author:   " << book.author << std::endl;
@@ -183,97 +182,73 @@ void Library::sort_alphabetically_ID(std::vector<Book>& vec) {  // Pass vector o
 
 //liz's additions
 
-std::vector<Book> Library::searchBook_ISBN(long long int isbn)
-{
+std::vector<Book> Library::searchBook_ISBN(long long int isbn) {
     std::vector<Book> values;
-    for (Book book : catalog)
-    {
-        if (book.isbn == isbn)
-        {
+    for (Book book : catalog) {
+        if (book.isbn == isbn) {
             values.push_back(book);
         }
     }
     //checking if there is more than one book
-    if (values.size() > 1)
-    {
+    if (values.size() > 1) {
         sort_alphabetically_title(values);
-
     }
-    for (Book book1 : values)
-    {
+    for (Book book1 : values) {
         print_book_with_date(book1);
     }
     return values;
 }
 
-std::vector<Book> Library::searchBook_title(std::string title)
-{
+std::vector<Book> Library::searchBook_title(std::string title) {
     std::vector<Book> values;
-    for (Book book : catalog)
-    {
-        if (book.title == title)
-        {
+    for (Book book : catalog) {
+        if (book.title == title) {
             values.push_back(book);
         }
     }
 
     //checking if there is more than one book
-    if (values.size() > 1)
-    {
+    if (values.size() > 1) {
         sort_alphabetically_title(values);
-
     }
-    for (Book book1 : values)
-    {
+    for (Book book1 : values) {
         print_book_with_date(book1);
     }
     return values;
 }
 
 
-std::vector<Book> Library::searchBook_category(std::string category)
-{
+std::vector<Book> Library::searchBook_category(std::string category) {
     std::vector<Book> values;
-    for (Book book : catalog)
-    {
-        if (book.category == category)
-        {
+    for (Book book : catalog) {
+        if (book.category == category) {
             values.push_back(book);
         }
     }
 
     //checking if there is more than one book
-    if (values.size() > 1)
-    {
+    if (values.size() > 1) {
         sort_alphabetically_title(values);
-
     }
-    for (Book book1 : values)
-    {
+    for (Book book1 : values) {
         print_book_with_date(book1);
     }
     return values;
 }
 
-std::vector<Book> Library::searchBook_ID(int id)
-{
+std::vector<Book> Library::searchBook_ID(int id) {
     std::vector<Book> values;
-    for (Book book : catalog)
-    {
-        if (book.id == id)
-        {
+    for (Book book : catalog) {
+        if (book.id == id) {
             values.push_back(book);
         }
     }
 
     //checking if there is more than one book
-    if (values.size() > 1)
-    {
+    if (values.size() > 1) {
         sort_alphabetically_title(values);
-
     }
-    for (Book book1 : values)
-    {
+    for (Book book1 : values) {
         print_book_with_date(book1);
     }
     return values;
