@@ -41,7 +41,7 @@ void Teacher::print_userdata(TeacherData data) {
         if (book.due_in == 0) {
             std::cout << book.title << " is overdue! Make sure to return it." << std::endl;
         } else {
-            std::cout << book.title << " is due in " << (int) book.due_in << " days." << std::endl;
+            std::cout << book.title << " (ID " << book.id << ") is due in " << (int) book.due_in << " days." << std::endl;
         }
     }
     std::cout << std::endl;
