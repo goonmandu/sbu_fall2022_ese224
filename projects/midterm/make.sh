@@ -1,3 +1,3 @@
-g++ -c Student.cpp Teacher.cpp Library.cpp main.cpp -std=c++11
-g++ -o main Student.cpp Teacher.cpp Library.cpp main.cpp -std=c++11
+g++ -c Teacher.cpp main.cpp Library.cpp Student.cpp -std=c++11
+g++ -o main Teacher.cpp main.cpp Library.cpp Student.cpp -std=c++11
 ./main
