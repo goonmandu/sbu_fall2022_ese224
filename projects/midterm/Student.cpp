@@ -7,6 +7,13 @@
 #include <cmath>
 #include <chrono>
 
+Student::Student() {
+    fill_creds();
+    for (std::string username : usernames) {
+        database.push_back({username, {}});
+    }
+}
+
 StudentData Student::get_userdata(std::istream& in) {
     std::string username;
     std::cout << "Enter a username: ";
@@ -49,13 +56,6 @@ int Student::index_of_username(std::string username) {
         index++;
     }
     return not_found;
-}
-
-Student::Student() {
-    fill_creds();
-    for (std::string username : usernames) {
-        database.push_back({username, {}});
-    }
 }
 
 Book Student::return_book_student(Library lib, int id) {
