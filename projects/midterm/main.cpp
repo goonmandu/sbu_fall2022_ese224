@@ -11,8 +11,7 @@
 #include <chrono>
 #define SECONDS_PER_DAY 5
 
-int main()
-{
+int main() {
 	Student student = Student();
 	Teacher teacher = Teacher();
 	Library library = Library();
@@ -27,17 +26,21 @@ int main()
 		std::cout << "Enter username and password, space-separated: ";
 		std::cin >> usr;
 		std::cin >> pas;
+
 		valid_student = student.check_auth(usr, pas);
 		valid_teacher = teacher.check_auth(usr, pas);
+
 		if (!valid_teacher  && !valid_student) {
-			std::cout << "Invalid login! Get fucked." << std::endl;  // CHANGE THIS SHIT
+			std::cout << "Invalid login! Please check your username and password" << std::endl;
 			continue;
 		}
+
 		auto end = std::chrono::steady_clock::now();
 		double days_passed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() / (1000.0 * SECONDS_PER_DAY);
 		student.update_day(days_passed);
 		teacher.update_day(days_passed);
 		library.update_day(days_passed);
+
 		if (valid_teacher) {  // If it is valid teacher, then call menu from teacher
 			auto start = std::chrono::steady_clock::now();
 			do {
@@ -47,6 +50,7 @@ int main()
 			double days_passed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() / (1000.0 * SECONDS_PER_DAY);
 			student.update_day(days_passed);
 		}
+		
 		if (valid_student) {  // If it is valid student, then call menu from teacher
 			auto start = std::chrono::steady_clock::now();
 			do {

@@ -6,21 +6,16 @@
 #include <cstring>
 
 Library::Library() {
-    // std::cerr << "LIBRARY CONSTRUCTOR CALLED" << std::endl;
     std::ifstream books, users;
-
     long long int isbn;
     std::string title;
     std::string author;
     std::string category;
     int copies;
-
     int is_teacher;
     std::string username;
     std::string password;
-
     Book book;
-
     consec_id = 0;
 
     books.open("book.txt");
@@ -39,7 +34,6 @@ Library::Library() {
 
     while (!books.eof()) {
         books >> isbn >> title >> author >> category >> copies;
-        // std::cout << isbn << title << author << category << copies << std::endl;
         for (int i = 0; i < copies; i++) {
             book = { isbn, title, author, category, consec_id, -1 };
             this->catalog.push_back(book);
@@ -47,10 +41,6 @@ Library::Library() {
         }
     }
     number_of_books = catalog.size();
-}
-
-int Library::num_books() {
-    return number_of_books;
 }
 
 void Library::print_book(Book book) {
@@ -134,15 +124,6 @@ void Library::update_day(double days) {
     }
 }
 
-void Library::print_book_with_date(Book book) {
-    std::cout << "ISBN:     " << book.isbn << std::endl;
-    std::cout << "Title:    " << book.title << std::endl;
-    std::cout << "Author:   " << book.author << std::endl;
-    std::cout << "Category: " << book.category << std::endl;
-    std::cout << "Intrn ID: " << book.id << std::endl;
-    std::cout << "Due In:   " << book.due_in << std::endl << std::endl;
-}
-
 void Library::operator<<(const Book& book) {
     std::cout << "ISBN:     " << book.isbn << std::endl;
     std::cout << "Title:    " << book.title << std::endl;
@@ -167,25 +148,7 @@ void Library::sort_alphabetically_title(std::vector<Book>& vec) {  // Pass vecto
     }
 }
 
-/*
-void Library::sort_alphabetically_ID(std::vector<Book>& vec) {  // Pass vector of structs. If you want to modify the original vector, call it by reference.
-    int sorted = 0;                                       // If you want to return a new vector without modifying the original vector, you need to
-    while (sorted < vec.size() - 1) {                     // declare the function return type as std::vector<BookAndDue> and have a temporary vector
-        sorted = 0;                                       // inside this function to hold the vector to be worked on (ex. std::vector<BookAndDue> temp = vec;)
-        for (int i = 0; i < vec.size() - 1; i++) {
-            if (vec[i].id > vec[i + 1].id) {  // Make the comparison between the name strings, c_str() is called because strcmp is a C function and can only take in C style strings
-                std::swap(vec[i], vec[i + 1]);                               // Swap the vector indices (which are structs) if the name is not in alphabecial order
-            }
-            else {
-                sorted++;
-            }
-        }
-    }
-}
- */
-
-//liz's additions
-
+/* Search functions by Liz */
 std::vector<Book> Library::search_book_isbn(long long int isbn) {
     std::vector<Book> values;
     for (Book book : catalog) {
@@ -197,16 +160,10 @@ std::vector<Book> Library::search_book_isbn(long long int isbn) {
     if (values.size() > 1) {
         sort_alphabetically_title(values);
     }
-    /*
-    for (Book book1 : values) {
-        print_book_with_date(book1);
-    }
-     */
     return values;
 }
 
 std::vector<Book> Library::search_book_title(std::string title) {
-    // LOWERCASE std::transform(title.begin(), title.end(), title.begin(), [](unsigned char c){ return std::tolower(c); });
     std::vector<Book> values;
     for (Book book : catalog) {
         if (book.title == title) {
@@ -218,11 +175,6 @@ std::vector<Book> Library::search_book_title(std::string title) {
     if (values.size() > 1) {
         sort_alphabetically_title(values);
     }
-    /*
-    for (Book book1 : values) {
-        print_book_with_date(book1);
-    }
-     */
     return values;
 }
 
@@ -238,11 +190,6 @@ std::vector<Book> Library::search_book_author(std::string author) {
     if (values.size() > 1) {
         sort_alphabetically_title(values);
     }
-    /*
-    for (Book book1 : values) {
-        print_book_with_date(book1);
-    }
-     */
     return values;
 }
 
@@ -259,33 +206,8 @@ std::vector<Book> Library::search_book_category(std::string category) {
     if (values.size() > 1) {
         sort_alphabetically_title(values);
     }
-    /*
-    for (Book book1 : values) {
-        print_book_with_date(book1);
-    }
-     */
     return values;
 }
-
-/*
-std::vector<Book> Library::searchBook_ID(int id) {
-    std::vector<Book> values;
-    for (Book book : catalog) {
-        if (book.id == id) {
-            values.push_back(book);
-        }
-    }
-
-    //checking if there is more than one book
-    if (values.size() > 1) {
-        sort_alphabetically_title(values);
-    }
-    for (Book book1 : values) {
-        print_book_with_date(book1);
-    }
-    return values;
-}
- */
 
 std::istream& operator>>(std::istream& in, Book& book) {
     std::cout << "ISBN:     ";
@@ -303,7 +225,6 @@ std::istream& operator>>(std::istream& in, Book& book) {
 
 void Library::set_loan_duration(int id, int borrow_days) {
     int index = search_id(id) - &catalog[0];
-    // std::cerr << "index: " << index << std::endl;
     catalog[index].due_in = borrow_days;
 }
 

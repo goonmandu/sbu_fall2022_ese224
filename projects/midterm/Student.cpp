@@ -1,7 +1,7 @@
 #include "Student.h"
-#include<fstream>
-#include<vector>
-#include<iostream>
+#include <fstream>
+#include <vector>
+#include <iostream>
 #include <string>
 #include <iomanip>
 #include <cmath>
@@ -27,12 +27,11 @@ void Student::print_userdata(StudentData data) {
         return;
     }
     std::cout << "Username: " << data.username << std::endl;
-    // std::cerr << "Entering foreach" << std::endl;
-    if (data.borrowed_books_student.empty()) {
+    if (data.borrowed_books.empty()) {
         std::cout << "You have not borrowed any books!" << std::endl;
         return;
     }
-    for (Book book : data.borrowed_books_student) {
+    for (Book book : data.borrowed_books) {
         if (book.due_in == 0) {
             std::cout << book.title << " is overdue! Make sure to return it." << std::endl;
         } else {
@@ -43,10 +42,8 @@ void Student::print_userdata(StudentData data) {
 }
 
 int Student::index_of_username(std::string username) {
-    // DEBUG std::cout << "to search: " << username << std::endl;
     int not_found = -1, index = 0;
     for (StudentData data : database) {
-        // DEBUG std::cout << data.username << std::endl;
         if (data.username == username) {
             return index;
         }
@@ -59,38 +56,15 @@ Student::Student()
 {
     fill_creds();
     for (std::string username : usernames) {
-        database.push_back({ username, {}, {} });
+        database.push_back({username, {}});
     }
-}
-
-int Student::getNumCopy()
-{
-    return numCopies;
-}
-int Student::getBorrow()
-{
-    return maxBorrow;
-}
-std::string Student::GetUsername()
-{
-    return session_username;
-}
-std::string Student::GetPassword()
-{
-    return session_password;
-}
-
-
-void Student::clear_history()
-{
-    database.erase(database.begin(), database.end());
 }
 
 Book Student::return_book_student(Library lib, int id) {
     Book to_return = {-1, "", "", "", -1, -1};
     int index = 0;
     bool found = false;
-    for (Book book : database[index_in_database].borrowed_books_student) {
+    for (Book book : database[index_in_database].borrowed_books) {
         if (book.id == id) {
             to_return = book;
             found = true;
@@ -99,7 +73,7 @@ Book Student::return_book_student(Library lib, int id) {
         index++;
     }
     if (found) {
-        database[index_in_database].borrowed_books_student.erase(database[index_in_database].borrowed_books_student.begin() + index);
+        database[index_in_database].borrowed_books.erase(database[index_in_database].borrowed_books.begin() + index);
     }
     return to_return;
 }
@@ -107,18 +81,16 @@ Book Student::return_book_student(Library lib, int id) {
 Book Student::renew_book_student(int id)
 {
     Book invalid = {-1, "", "", "", -1, -1};
-    for (int i = 0; i < database[index_in_database].borrowed_books_student.size(); ++i) {
-        if (database[index_in_database].borrowed_books_student[i].id == id) {
-            database[index_in_database].borrowed_books_student[i].due_in = STUDENT_BORROW_DURATION;
-            return database[index_in_database].borrowed_books_student[i];
+    for (int i = 0; i < database[index_in_database].borrowed_books.size(); ++i) {
+        if (database[index_in_database].borrowed_books[i].id == id) {
+            database[index_in_database].borrowed_books[i].due_in = STUDENT_BORROW_DURATION;
+            return database[index_in_database].borrowed_books[i];
         }
     }
     return invalid;
 }
 
-bool Student::borrow_book_student(Library lib, int id)
-{
-    // std::cout << user_index;
+bool Student::borrow_book_student(Library lib, int id) {
     Book book = *(lib.search_id(id));
     if (book.isbn == -1) {
         std::cout << "The book was not found!" << std::endl;
@@ -129,46 +101,41 @@ bool Student::borrow_book_student(Library lib, int id)
         return false;
     } else {
         book.due_in = STUDENT_BORROW_DURATION;
-        database[index_in_database].borrowed_books_student.push_back(book);
+        database[index_in_database].borrowed_books.push_back(book);
         return true;
     }
 }
 
 void Student::update_day(double day) {
     for (int user_iter = 0; user_iter < database.size(); ++user_iter) {
-        for (int book_iter = 0; book_iter < database[user_iter].borrowed_books_student.size(); ++book_iter) {
-            // std::cerr << book.due_in << " " << day << " ";
-            if (database[user_iter].borrowed_books_student[book_iter].due_in > 0) {
-                // book.due_in -= 3;
-                database[user_iter].borrowed_books_student[book_iter].due_in -= day;
-                if (database[user_iter].borrowed_books_student[book_iter].due_in < 0) {
-                    database[user_iter].borrowed_books_student[book_iter].due_in = 0;
+        for (int book_iter = 0; book_iter < database[user_iter].borrowed_books.size(); ++book_iter) {
+            if (database[user_iter].borrowed_books[book_iter].due_in > 0) {
+                database[user_iter].borrowed_books[book_iter].due_in -= day;
+                if (database[user_iter].borrowed_books[book_iter].due_in < 0) {
+                    database[user_iter].borrowed_books[book_iter].due_in = 0;
                 }
-                // std::cerr << book.due_in << std::endl;
             }
         }
     }
 }
 
 int Student::menu(Library &lib) {
-
+    bool success;
     char expression = 'a';
     int commandchosen;
     int query_id;
     int query_int;
+    long long int query_isbn;
+    double days_passed;
     std::string query_author_name, query_title, query_category;
     std::vector<Book> search_result;
-    Book renewed, returned, deleted;
-    long long int new_isbn, query_isbn;
-    std::string new_title, new_author, new_category;
-    double days_passed;
     std::chrono::steady_clock::time_point end;
-    bool success;
+    Book renewed, returned;
 
     auto start = std::chrono::steady_clock::now();
-    std::cout << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
-    std::cout << "~      " << "Library Options" << std::setw(8) << "~" << std::endl;
-    std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+    std::cout << "\n+----------------------------+" << std::endl;
+    std::cout << "|      Library Options       |" << std::endl;
+    std::cout << "+----------------------------+" << std::endl;
     std::cout << "\nYou are logged in as: " << session_username << " (Student)" << std::endl << std::endl;
     std::cout << "(1) - Search Book by ID" << std::endl;
     std::cout << "(2) - Borrow Book" << std::endl;
@@ -329,7 +296,6 @@ int Student::menu(Library &lib) {
 }
 
 void Student::fill_creds() {
-    // fstream student is opened with "students.txt"
     std::ifstream student;
     student.open("student.txt");
     bool role;
@@ -368,7 +334,7 @@ void Student::print_all_users_in_db() {
 }
 
 bool Student::session_has_overdue_books() {
-    for (Book book : database[index_in_database].borrowed_books_student) {
+    for (Book book : database[index_in_database].borrowed_books) {
         if (!book.due_in) {
             return true;
         }
@@ -377,5 +343,5 @@ bool Student::session_has_overdue_books() {
 }
 
 bool Student::session_exceeded_books_limit() {
-    return database[index_in_database].borrowed_books_student.size() < STUDENT_BORROW_LIMIT ? false : true;
+    return database[index_in_database].borrowed_books.size() < STUDENT_BORROW_LIMIT ? false : true;
 }
