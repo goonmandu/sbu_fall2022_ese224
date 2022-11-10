@@ -7,8 +7,14 @@
 #include <cmath>
 #include <chrono>
 
-TeacherData Teacher::get_userdata(std::istream& in)
-{
+Teacher::Teacher() {
+    fill_creds();
+    for (std::string username : usernames) {
+        database.push_back({username, {}});
+    }
+}
+
+TeacherData Teacher::get_userdata(std::istream& in) {
     std::string username;
     std::cout << "Enter a username: ";
     in >> username;
@@ -52,14 +58,6 @@ int Teacher::index_of_username(std::string username) {
     return not_found;
 }
 
-Teacher::Teacher()
-{
-    fill_creds();
-    for (std::string username : usernames) {
-        database.push_back({username, {}});
-    }
-}
-
 Book Teacher::return_book_teacher(Library lib, int id) {
     Book to_return = {-1, "", "", "", -1, -1};
     int index = 0;
@@ -78,8 +76,7 @@ Book Teacher::return_book_teacher(Library lib, int id) {
     return to_return;
 }
 
-Book Teacher::renew_book_teacher(int id)
-{
+Book Teacher::renew_book_teacher(int id) {
     Book invalid = {-1, "", "", "", -1, -1};
     for (int i = 0; i < database[index_in_database].borrowed_books.size(); ++i) {
         if (database[index_in_database].borrowed_books[i].id == id) {

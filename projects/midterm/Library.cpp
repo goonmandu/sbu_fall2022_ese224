@@ -34,7 +34,7 @@ Library::Library() {
 
     while (!books.eof()) {
         books >> isbn >> title >> author >> category >> copies;
-        for (int i = 0; i < copies; i++) {
+        for (int i = 0; i < copies; ++i) {
             book = { isbn, title, author, category, consec_id, -1 };
             this->catalog.push_back(book);
             consec_id++;
@@ -137,7 +137,7 @@ void Library::sort_alphabetically_title(std::vector<Book>& vec) {  // Pass vecto
     int sorted = 0;                                       // If you want to return a new vector without modifying the original vector, you need to
     while (sorted < vec.size() - 1) {                     // declare the function return type as std::vector<BookAndDue> and have a temporary vector
         sorted = 0;                                       // inside this function to hold the vector to be worked on (ex. std::vector<BookAndDue> temp = vec;)
-        for (int i = 0; i < vec.size() - 1; i++) {
+        for (int i = 0; i < vec.size() - 1; ++i) {
             if (strcmp(vec[i].title.c_str(), vec[i + 1].title.c_str()) > 0) {  // Make the comparison between the name strings, c_str() is called because strcmp is a C function and can only take in C style strings
                 std::swap(vec[i], vec[i + 1]);                               // Swap the vector indices (which are structs) if the name is not in alphabecial order
             }
