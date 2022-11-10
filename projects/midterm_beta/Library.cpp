@@ -39,7 +39,7 @@ Library::Library() {
 
     while (!books.eof()) {
         books >> isbn >> title >> author >> category >> copies;
-        std::cout << isbn << title << author << category << copies << std::endl;
+        // std::cout << isbn << title << author << category << copies << std::endl;
         for (int i = 0; i < copies; i++) {
             book = { isbn, title, author, category, consec_id, -1 };
             this->catalog.push_back(book);
