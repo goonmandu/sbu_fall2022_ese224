@@ -3,7 +3,6 @@
 
 int main() {
     Stack intstack = Stack();
-    // intstack.pop();
     intstack.push(1);
     std::cout << intstack.top() << std::endl;
     intstack.push(2);
