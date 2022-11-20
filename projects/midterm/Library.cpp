@@ -196,7 +196,6 @@ std::vector<Book> Library::search_book_author(std::string author) {
 std::vector<Book> Library::search_book_category(std::string category) {
     std::vector<Book> values;
     for (Book book : catalog) {
-        std::cout << "Query: " << category << ", Compare against: " << book.category << std::endl;
         if (book.category == category) {
             values.push_back(book);
         }
