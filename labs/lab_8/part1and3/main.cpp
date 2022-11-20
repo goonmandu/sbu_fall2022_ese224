@@ -1,6 +1,5 @@
 #include <iostream>
-
-
+#include <vector>
 
 template <typename Type>
 struct Node
@@ -10,6 +9,12 @@ struct Node
     Node() : next(nullptr) {}
     Node(Type x, Node* ptr = nullptr) : value(x), next(ptr) {}
     ~Node() {}
+    bool operator== (Node<Type> rhs) {
+        if (value == rhs.value && next == rhs.next) {
+            return true;
+        }
+        return false;
+    }
 };
 
 // add a new node next to a particular node
@@ -27,10 +32,10 @@ void insertion(Node<Type>* node, Type val)
 };
 
 template <typename Type>
-void traverse(Node<Type>* head)
+void traverse(Node<Type>* head, int nodes)
 {
     Node<Type>* tmp = head;
-    while (tmp)
+    while (tmp && nodes--)
     {
         std::cout << tmp->value << " ";
         tmp = tmp->next;
@@ -81,58 +86,43 @@ void reverse(Node<Type>* &list) {
     list = prev;
 }
 
-template <typename Type>
-Node<Type>* merge(Node<Type>* &list1, Node<Type>* &list2) {
-    Node<Type>* result = new Node<Type>(0);
-    if (!list1) {
-        return list2;
-    }
-    if (!list2) {
-        return list1;
-    }
-    /*
-    if (list1.value > list2.value) {
-        insertion(result, list2.value);
-        list2 = list1.next;
-    } else {
-        insertion(result, list1.value);
-        list1 = list1.next;
-    }
-     */
-    if (list1->value > list2->value) {
-        insertion(result, list2->value);
-        list2 = list2->next;
-    } else {
-        insertion(result, list1->value);
-        list1 = list1->next;
-    }
-    while (list1->next && list2->next) {
-        
-    }
-    if (!list1->next) {
-        while (!list2->next) {
-            insertion(result, list2->value);
-            list2 = list2->next;
-        }
-    } else if (!list2) {
-        while (!list1) {
-            insertion(result, list1->value);
-            list1 = list1->next;
+template <typename T>
+bool vector_contains(std::vector<T> vec, T target) {
+    for (T t : vec) {
+        if (target == t) {
+            return true;
         }
     }
-    return result;
+    return false;
 }
+
+template <typename T>
+void print_cut_cycle(Node<T>* head) {
+    Node<T>* tmp = head;
+    std::vector<Node<T>> seen;
+    while (tmp) {
+        if (!vector_contains(seen, *tmp)) {
+            seen.push_back(*tmp);
+        } else {
+            break;
+        }
+        std::cout << tmp->value << " ";
+        tmp = tmp->next;
+    }
+    std::cout << std::endl;
+};
 
 int main() {
     int arr1[] = {1, 3, 4, 6, 8};
     int arr2[] = {0, 1, 2, 7};
     Node<int> *list1 = createLinkedList(arr1, 5);
     auto list2 = createLinkedList(arr2, 4);
-    traverse(list1);
-    // reverse(list1);
-    // traverse(list1);
-    insertion(list1, 9);
-    traverse(list1);
-    auto merged = merge(list1, list2);
-    traverse(merged);
+    std::cout << "Part 1" << '\n';
+    traverse(list1, -1);
+    reverse(list1);
+    traverse(list1, -1);
+    std::cout << "Part 3" << '\n';
+    list1->next->next->next->next = list1->next;
+    traverse(list1, 20);
+    print_cut_cycle(list1);
 }
