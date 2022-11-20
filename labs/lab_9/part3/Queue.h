@@ -10,4 +10,3 @@ class Queue {
         int front();
         bool empty();
 };
-

@@ -52,7 +52,9 @@ std::list<int> add_lists(std::list<int> lhs, std::list<int> rhs) {
 }
 
 int main() {
-    std::list<int> lhs = {6, 0, 8};
+    std::list<int> lhs = {9, 0, 8};
     std::list<int> rhs = {9, 2};
+    print_list(lhs);
+    print_list(rhs);
     print_list(add_lists(lhs, rhs));
 }
