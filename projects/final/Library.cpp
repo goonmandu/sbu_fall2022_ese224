@@ -4,6 +4,8 @@
 #include <cctype>
 #include "Library.h"
 #include <cstring>
+#define debugout std::cerr
+
 
 Library::Library() {
     std::ifstream books, users;
@@ -12,7 +14,7 @@ Library::Library() {
     std::string author;
     std::string category;
     int copies;
-    int is_teacher;
+    int role;
     std::string username;
     std::string password;
     Book book;
@@ -32,15 +34,46 @@ Library::Library() {
 
     catalog.push_back({ -1, "", "", "", -1, -1 });  // Invalid book in catalog to return pointers as
 
+    while (!users.eof()) {
+        users >> role >> username >> password;
+        credentials[username] = {
+            {"role", role},
+            {"username", username},
+            {"password", password}
+        };
+    }
+    std::ofstream credsout("json/credentials.json");
+    credsout << std::setw(4) << credentials << std::endl;
+
     while (!books.eof()) {
         books >> isbn >> title >> author >> category >> copies;
+        resandlikes[std::to_string(isbn)] = {
+            {"reservers", {}},
+            {"likes", 0}
+        };
         for (int i = 0; i < copies; ++i) {
             book = { isbn, title, author, category, consec_id, -1 };
             this->catalog.push_back(book);
+            json to_add = {
+                {"isbn", isbn},
+                {"title", title},
+                {"author", author},
+                {"category", category},
+                {"id", consec_id},
+                {"due_in", -1}
+            };
+            catjson[std::to_string(consec_id)] = to_add;
             consec_id++;
         }
     }
     number_of_books = catalog.size();
+    for (auto it : catjson) {
+        std::cout << it << std::endl;
+    }
+    std::ofstream catout("json/catout.json");
+    std::ofstream rnlout("json/resandlikes.json");
+    catout << std::setw(4) << catjson << std::endl;
+    rnlout << std::setw(4) << resandlikes << std::endl;
 }
 
 void Library::print_book(Book book) {

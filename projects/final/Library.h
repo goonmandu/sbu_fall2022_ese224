@@ -1,6 +1,9 @@
 #pragma once
 #include <vector>
 #include <string>
+#include "third_party/json.hpp"
+
+using json = nlohmann::json;
 
 typedef struct Book {
     long long int isbn;
@@ -14,6 +17,9 @@ typedef struct Book {
 class Library {
     private:
         std::vector<Book> catalog;
+        json catjson;
+        json resandlikes;
+        json credentials;
         int number_of_books;
         int consec_id;
     public:

@@ -21,9 +21,11 @@ TreeNode* buildtree() {
     root->right = new TreeNode(3);
     /* tree structure
 
-         1
-        2 3
-       4 5
+          1
+         / \
+        2   3
+       / \
+      4   5
 
      */
     return root;

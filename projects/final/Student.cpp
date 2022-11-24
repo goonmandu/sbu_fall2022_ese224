@@ -295,11 +295,11 @@ int Student::menu(Library &lib) {
 void Student::fill_creds() {
     std::ifstream student;
     student.open("student.txt");
-    bool role;
+    int role;
     std::string id, pw;
     while (!student.eof()) {
         student >> role >> id >> pw;
-        if (role) {
+        if (!role) {
             usernames.push_back(id);
             passwords.push_back(pw);
         }

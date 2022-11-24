@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <cmath>
 #include <chrono>
+#include "third_party/json.hpp"
 
 Teacher::Teacher() {
     fill_creds();
@@ -129,6 +130,8 @@ int Teacher::menu(Library &lib) {
     std::vector<Book> search_result;
     std::chrono::steady_clock::time_point end;
     Book renewed, returned, deleted;
+    std::ifstream rnl("json/resandlikes.json");
+    json resandlikes = json::parse(rnl);
 
     auto start = std::chrono::steady_clock::now();
     std::cout << "\n+----------------------------+" << std::endl;
@@ -187,6 +190,9 @@ int Teacher::menu(Library &lib) {
             success = borrow_book_teacher(lib, query_id);
             if (success) {
                 lib.set_loan_duration(query_id, TEACHER_BORROW_DURATION);  // ??
+                auto strisbn = std::to_string(lib.search_id(query_id)->isbn);
+                int cur_likes = resandlikes[strisbn]["likes"];
+                resandlikes[strisbn]["likes"] = cur_likes += 1;
             }
             std::cout << std::endl;
             print_userdata(database[index_in_database]);
@@ -331,9 +337,10 @@ int Teacher::menu(Library &lib) {
         default:
             std::cout << "Invalid command! Try again." << std::endl << std::endl;
     }
+    std::ofstream rnlout("json/resandlikes.json");
+    rnlout << std::setw(4) << resandlikes << std::endl;
     return commandchosen;
 }
-
 
 void Teacher::request_book(Library lib, long long int isbn, std::string title, std::string author, std::string category) {
     lib.add_book(isbn, title, author, category);
@@ -342,11 +349,11 @@ void Teacher::request_book(Library lib, long long int isbn, std::string title, s
 void Teacher::fill_creds() {
     std::ifstream student;
     student.open("student.txt");
-    bool role;
+    int role;
     std::string id, pw;
     while (!student.eof()) {
         student >> role >> id >> pw;
-        if (!role) {
+        if (role == 1) {
             usernames.push_back(id);
             passwords.push_back(pw);
         }
