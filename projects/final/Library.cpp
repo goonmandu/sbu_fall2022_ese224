@@ -49,7 +49,8 @@ Library::Library() {
         books >> isbn >> title >> author >> category >> copies;
         resandlikes[std::to_string(isbn)] = {
             {"reservers", {}},
-            {"likes", 0}
+            {"likes", 0},
+            {"title", title}
         };
         for (int i = 0; i < copies; ++i) {
             book = { isbn, title, author, category, consec_id, -1 };
@@ -67,13 +68,56 @@ Library::Library() {
         }
     }
     number_of_books = catalog.size();
+    /*
     for (auto it : catjson) {
         std::cout << it << std::endl;
     }
+     */
     std::ofstream catout("json/catout.json");
     std::ofstream rnlout("json/resandlikes.json");
     catout << std::setw(4) << catjson << std::endl;
     rnlout << std::setw(4) << resandlikes << std::endl;
+
+    rnljson_to_vector();
+}
+
+void Library::rnljson_to_vector() {
+    internal_rnl.clear();
+    char *end;
+    for (auto it = resandlikes.begin(); it != resandlikes.end(); ++it) {
+        std::vector<std::string> reservers_vector;
+        for (auto resit = (*it)["reservers"].begin(); resit != (*it)["reservers"].end(); ++resit) {
+            reservers_vector.push_back(*resit);
+        }
+        internal_rnl.push_back({
+            std::strtoll(it.key().c_str(), &end, 10),
+            it.value()["title"],
+            reservers_vector,
+            it.value()["likes"]
+        });
+    }
+}
+
+void Library::print_top_books() {
+    int rank = 1;
+    for (LikesAndReservers data : internal_rnl) {
+        if (data.likes) {
+            std::cout << "#" << rank++ << ": " << data.title << " (" << data.likes << ")" << std::endl;
+        }
+    }
+}
+
+void Library::sort_vector_lnr() {
+    std::sort(internal_rnl.begin(), internal_rnl.end(),
+              [](LikesAndReservers a, LikesAndReservers b) {
+                  return a.likes > b.likes;
+              });
+}
+
+void Library::increment_likes(int id) {
+    auto strisbn = std::to_string(search_id(id)->isbn);
+    int cur_likes = resandlikes[strisbn]["likes"];
+    resandlikes[strisbn]["likes"] = cur_likes += 1;
 }
 
 void Library::print_book(Book book) {

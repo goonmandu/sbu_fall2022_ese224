@@ -5,6 +5,13 @@
 
 using json = nlohmann::json;
 
+typedef struct LikesAndReservers {
+    long long int isbn;
+    std::string title;
+    std::vector<std::string> reservers;
+    int likes;
+} LikesAndReservers;
+
 typedef struct Book {
     long long int isbn;
     std::string title;
@@ -20,6 +27,7 @@ class Library {
         json catjson;
         json resandlikes;
         json credentials;
+        std::vector<LikesAndReservers> internal_rnl;
         int number_of_books;
         int consec_id;
     public:
@@ -44,4 +52,8 @@ class Library {
         std::vector<Book> search_book_author(std::string author);
         void set_loan_duration(int id, int borrow_days);
         Book get_last_book();
+        void rnljson_to_vector();
+        void sort_vector_lnr();
+        void print_top_books();
+        void increment_likes(int id);
 };

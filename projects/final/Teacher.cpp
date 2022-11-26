@@ -190,9 +190,7 @@ int Teacher::menu(Library &lib) {
             success = borrow_book_teacher(lib, query_id);
             if (success) {
                 lib.set_loan_duration(query_id, TEACHER_BORROW_DURATION);  // ??
-                auto strisbn = std::to_string(lib.search_id(query_id)->isbn);
-                int cur_likes = resandlikes[strisbn]["likes"];
-                resandlikes[strisbn]["likes"] = cur_likes += 1;
+                lib.increment_likes(query_id);
             }
             std::cout << std::endl;
             print_userdata(database[index_in_database]);
@@ -333,6 +331,17 @@ int Teacher::menu(Library &lib) {
             lib.update_day(days_passed);
             update_day(days_passed);
             commandchosen = 0;
+            break;
+        case 'a':
+            end = std::chrono::steady_clock::now();
+            days_passed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() / (1000.0 * SECONDS_PER_DAY);
+            lib.update_day(days_passed);
+            update_day(days_passed);
+            lib.rnljson_to_vector();
+            lib.sort_vector_lnr();
+            lib.print_top_books();
+            print_userdata(database[index_in_database]);
+            commandchosen = 1;
             break;
         default:
             std::cout << "Invalid command! Try again." << std::endl << std::endl;
