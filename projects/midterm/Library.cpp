@@ -4,6 +4,7 @@
 #include <cctype>
 #include "Library.h"
 #include <cstring>
+#include <iterator>
 
 Library::Library() {
     std::ifstream books, users;

@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <list>
 #include "third_party/json.hpp"
 
 using json = nlohmann::json;
@@ -8,7 +9,7 @@ using json = nlohmann::json;
 typedef struct LikesAndReservers {
     long long int isbn;
     std::string title;
-    std::vector<std::string> reservers;
+    std::list<std::string> reservers;
     int likes;
 } LikesAndReservers;
 
@@ -56,4 +57,10 @@ class Library {
         void sort_vector_lnr();
         void print_top_books();
         void increment_likes(int id);
+        int reserve_book(std::string username, std::string target_title);
+        void print_internal_rnl();
 };
+
+template<typename T> auto stllist_iterator_of(T t);
+template<typename T> void print_list(std::list<T> tlist);
+template<typename T> bool stllist_contains(std::list<T> tlist, T t);

@@ -6,7 +6,6 @@
 #include <cstring>
 #define debugout std::cerr
 
-
 Library::Library() {
     std::ifstream books, users;
     long long int isbn;
@@ -85,7 +84,7 @@ void Library::rnljson_to_vector() {
     internal_rnl.clear();
     char *end;
     for (auto it = resandlikes.begin(); it != resandlikes.end(); ++it) {
-        std::vector<std::string> reservers_vector;
+        std::list<std::string> reservers_vector;
         for (auto resit = (*it)["reservers"].begin(); resit != (*it)["reservers"].end(); ++resit) {
             reservers_vector.push_back(*resit);
         }
@@ -157,6 +156,16 @@ void Library::print_all_books() {
     }
 };
 
+void Library::print_internal_rnl() {
+    for (LikesAndReservers rnl_it : internal_rnl) {
+        std::cout << "ISBN:      " << rnl_it.isbn << std::endl;
+        std::cout << "Title:     " << rnl_it.title << std::endl;
+        std::cout << "Likes:     " << rnl_it.likes << std::endl;
+        std::cout << "Reservers: "; print_list(rnl_it.reservers);
+        std::cout << std::endl << std::endl;
+    }
+}
+
 Book Library::borrow_book(int id, int borrow_days) {
     Book* bookptr = search_id(id);
     int index = bookptr - &catalog[0];
@@ -188,6 +197,20 @@ void Library::add_book(long long int isbn, std::string title, std::string author
     Book book = { isbn, title, author, category, consec_id++, -1 };
     catalog.push_back(book);
     this->number_of_books = catalog.size();
+}
+
+int Library::reserve_book(std::string username, std::string target_title) {
+    for (int i = 0; i < internal_rnl.size(); ++i) {
+        auto current_iterating_book = internal_rnl[i];
+        if (current_iterating_book.title == target_title) {
+            if (stllist_contains(current_iterating_book.reservers, username)) {
+                return -2;
+            }
+            internal_rnl[i].reservers.push_back(username);
+            return internal_rnl[i].reservers.size();
+        }
+    }
+    return -1;
 }
 
 void Library::update_day(double days) {
@@ -307,4 +330,29 @@ void Library::set_loan_duration(int id, int borrow_days) {
 
 Book Library::get_last_book() {
     return catalog.back();
+}
+
+template<typename T> auto stllist_iterator_of(std::list<T> tlist, T target) {
+    auto it = tlist.begin();
+    for (it; it != tlist.end() && *it != target; std::advance(it, 1)) { }
+    return it;
+}
+
+template<typename T> void print_list(std::list<T> tlist) {
+    auto it = tlist.begin();
+    while (it != tlist.end()) {
+        std::cout << *it << ", ";
+        std::advance(it, 1);
+    }
+    std::cout << std::endl;
+}
+
+template<typename T> bool stllist_contains(std::list<T> tlist, T t) {
+    auto it = tlist.begin();
+    while (it != tlist.end()) {
+        if (*it == t) {
+            return 1;
+        }
+    }
+    return 0;
 }

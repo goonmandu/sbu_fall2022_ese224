@@ -74,6 +74,7 @@ Book Teacher::return_book_teacher(Library lib, int id) {
     if (found) {
         database[index_in_database].borrowed_books.erase(database[index_in_database].borrowed_books.begin() + index);
     }
+
     return to_return;
 }
 
@@ -118,7 +119,7 @@ void Teacher::update_day(double day) {
 }
 
 int Teacher::menu(Library &lib) {
-    bool success;
+    int success;
     char expression = 'a';
     int commandchosen;
     int query_id;
@@ -147,6 +148,8 @@ int Teacher::menu(Library &lib) {
     std::cout << "(7) - View Borrowed Books" << std::endl;
     std::cout << "(8) - Search Book by Keyword" << std::endl;
     std::cout << "(9) - List Library Catalog" << std::endl;
+    std::cout << "(a) - View Top 10 Liked Books" << std::endl;
+    std::cout << "(b) - Reserve Book" << std::endl;
     std::cout << "(0) - Log Out " << std::endl;
     std::cout << "\nPlease select an option. ";
     std::cout << std::endl << "Enter a command: ";
@@ -340,8 +343,39 @@ int Teacher::menu(Library &lib) {
             lib.rnljson_to_vector();
             lib.sort_vector_lnr();
             lib.print_top_books();
-            print_userdata(database[index_in_database]);
+            // print_userdata(database[index_in_database]);
             commandchosen = 1;
+            break;
+        case 'b':
+            end = std::chrono::steady_clock::now();
+            days_passed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() / (1000.0 * SECONDS_PER_DAY);
+            lib.update_day(days_passed);
+            if (session_has_overdue_books()) {
+                std::cout << "You must return overdue books first!" << std::endl;
+                break;
+            }
+            if (session_exceeded_books_limit()) {
+                std::cout << "You are at your borrow limit! Return some books first." << std::endl;
+                break;
+            }
+            std::cout << "Enter the title of the book you would like to reserve: ";
+            std::cin >> query_title;
+            end = std::chrono::steady_clock::now();
+            days_passed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() / (1000.0 * SECONDS_PER_DAY);
+            update_day(days_passed);
+            success = lib.reserve_book(session_username, query_title);
+            if (success > -1) {
+                std::cout << "You have successfully reserved " << query_title << " at position " << success << "." << std::endl;
+            } else if (success == -1) {
+                std::cout << "The book \"" << query_title << "\" could not be found." << std::endl;
+            } else if (success == -2) {
+                std::cout << "You have already reserved " << query_title << "!" << std::endl;
+            }
+            std::cout << std::endl;
+            
+            // print_userdata(database[index_in_database]);
+            commandchosen = 1;
+            lib.print_internal_rnl();
             break;
         default:
             std::cout << "Invalid command! Try again." << std::endl << std::endl;
