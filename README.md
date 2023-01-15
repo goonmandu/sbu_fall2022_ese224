@@ -8,6 +8,8 @@ Course: *ESE 224, Section 01*
 Originally authored by Mingi Hwang, a Stony Brook University student studying Computer Engineering.  
 If you wish to contact me directly, send an email to hwang.mingi7@gmail.com, or send a friend request to goonmandu#4897 on Discord.
 
+I received an A for this course.
+
 All code was compiled and tested to run under macOS 13 Ventura betas 5-6 and 13.1 betas 1-2, with the Apple M1 (AArch64) SoC running Apple Clang. I cannot guarantee that the code will compile under Linux/Windows, with x86_64 processors, or when done so with GCC.
 
 # Warnings and Disclaimers
